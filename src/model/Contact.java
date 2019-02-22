@@ -1,17 +1,20 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Contact {
+	private int id;
 	private String firstName;
 	private String lastName;
 	private int age;
 	private LocalDate birthDate;
-	private String phone;
 	private int houseNumber;
 	private String street;
 	private String city;
 	private String state;
+	private List<Phone> allPhoneItems = new ArrayList<Phone>();
 	
 	public Contact () {
 		super();
@@ -31,26 +34,24 @@ public class Contact {
 		this.birthDate = birthDate;
 	}
 	
-	public Contact(String firstName, String lastName, int age, LocalDate birthDate, String phone) {
+	public Contact(String firstName, String lastName, int age, LocalDate birthDate, int houseNumber, String street, String city, String state) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
 		this.birthDate = birthDate;
-		this.phone = phone;
-	}
-	
-	public Contact(String firstName, String lastName, int age, LocalDate birthDate, String phone, int houseNumber, String street, String city, String state) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.age = age;
-		this.birthDate = birthDate;
-		this.phone = phone;
 		this.houseNumber = houseNumber;
 		this.street = street;
 		this.city = city;
 		this.state = state;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -85,14 +86,6 @@ public class Contact {
 		this.birthDate = birthDate;
 	}
 
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
 	public int getHouseNumber() {
 		return houseNumber;
 	}
@@ -125,8 +118,16 @@ public class Contact {
 		this.state = state;
 	}
 	
+	public List<Phone> getAllPhoneItems() {
+		return allPhoneItems;
+	}
+
+	public void setAllPhoneItems(List<Phone> allPhoneItems) {
+		this.allPhoneItems = allPhoneItems;
+	}
+
 	@Override
 	public String toString() {
-		return "[First Name: " + firstName + ", Last Name: " + lastName + ", Age: " + age + ", Birth Date: " + birthDate + ", Phone Number: " + phone + ", House Number: " + houseNumber + ", Street: " + street + ", City: " + city + ", State: " + state + "]";
+		return "[ID: " + id + ", First Name: " + firstName + ", Last Name: " + lastName + ", Age: " + age + ", Birth Date: " + birthDate + ", House Number: " + houseNumber + ", Street: " + street + ", City: " + city + ", State: " + state + "]";
 	}
 }
