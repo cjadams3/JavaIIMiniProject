@@ -5,9 +5,15 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Contact Phone Program</title>
 </head>
 <body>
-
+<form method="post" action="navigationServlet">
+	<select name="action">
+		<option value="add">Add a Contact</option>
+		<option value="view">View List of Contacts</option>
+	</select>
+	<input type="submit" value="Submit" />
+	</form>
 </body>
 </html>
