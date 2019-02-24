@@ -6,9 +6,18 @@ import javax.persistence.Persistence;
 
 import model.Phone;
 
-public class PhoneHelper {
-	static EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("");
+public class PhoneHelper 
+  ChrisWorkBranch
+	static EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("JavaIIMiniProject");
 	
+	public void InsertPhone(Phone toEnter) {
+		EntityManager em = emfactory.createEntityManager();
+		em.getTransaction().begin();
+		em.merge(toEnter);
+		em.getTransaction().commit();
+		em.close();
+	}
+======= master
 	public Phone findPhoneByID(int idToEdit) {
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
