@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 import model.Contact;
 
@@ -33,5 +34,27 @@ public class ContactHelper {
 		Contact found = em.find(Contact.class, idToEdit);
 		em.close();
 		return found;
+	}
+	
+	public List<Contact> findContactByType(String findType) {
+		EntityManager em = emfactory.createEntityManager();
+		em.getTransaction().begin();
+		TypedQuery<Contact> typedQuery = em.createQuery("select p from Contact p where p.phonetype = :selectedType", Contact.class);
+		typedQuery.setParameter("selectedType", findType);
+
+		List<Contact> foundType = typedQuery.getResultList();
+		em.close();
+		return foundType;
+	}
+	
+	public List<Contact> findContactByName(String findName) {
+		EntityManager em = emfactory.createEntityManager();
+		em.getTransaction().begin();
+		TypedQuery<Contact> typedQuery = em.createQuery("select p from Contact p where p.phonename = :selectedName", Contact.class);
+		typedQuery.setParameter("selectedName", findName);
+
+		List<Contact> foundName = typedQuery.getResultList();
+		em.close();
+		return foundName;
 	}
 }
