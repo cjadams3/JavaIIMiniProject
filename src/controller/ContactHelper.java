@@ -7,44 +7,43 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
-import model.Phone;
+import model.Contact;
 
-public class PhoneHelper {
+public class ContactHelper {
 	static EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("");
+
 	
-	
-	
-	public List<Phone> findPhoneByType(String findType) {
+	public List<Contact> findContactByType(String findType) {
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
-		TypedQuery<Phone> typedQuery = em.createQuery("select p from Phone p where p.phonetype = :selectedType", Phone.class);
+		TypedQuery<Contact> typedQuery = em.createQuery("select p from Contact p where p.phonetype = :selectedType", Contact.class);
 		typedQuery.setParameter("selectedType", findType);
 
-		List<Phone> foundType = typedQuery.getResultList();
+		List<Contact> foundType = typedQuery.getResultList();
 		em.close();
 		return foundType;
 	}
 
-	public List<Phone> findPhoneByName(String findName) {
+	public List<Contact> findContactByName(String findName) {
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
-		TypedQuery<Phone> typedQuery = em.createQuery("select p from Phone p where p.phonename = :selectedName", Phone.class);
+		TypedQuery<Contact> typedQuery = em.createQuery("select p from Contact p where p.phonename = :selectedName", Contact.class);
 		typedQuery.setParameter("selectedName", findName);
 
-		List<Phone> foundName = typedQuery.getResultList();
+		List<Contact> foundName = typedQuery.getResultList();
 		em.close();
 		return foundName;
 	}
 	
-	public Phone findPhoneByID(int idToEdit) {
+	public Contact findContactByID(int idToEdit) {
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
-		Phone found = em.find(Phone.class, idToEdit);
+		Contact found = em.find(Contact.class, idToEdit);
 		em.close();
 		return found;
 	}
 	
-	public void updatePhone(Phone toEdit) {
+	public void updateContact(Contact toEdit) {
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
 		em.merge(toEdit);
