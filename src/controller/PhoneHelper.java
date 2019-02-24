@@ -9,10 +9,9 @@ import javax.persistence.TypedQuery;
 
 import model.Phone;
 
-public class PhoneHelper {
-	static EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("");
-	
-	
+public class PhoneHelper 
+  
+	static EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("JavaIIMiniProject");
 	
 	public List<Phone> findPhoneByType(String findType) {
 		EntityManager em = emfactory.createEntityManager();
@@ -35,7 +34,15 @@ public class PhoneHelper {
 		em.close();
 		return foundName;
 	}
-	
+
+	public void InsertPhone(Phone toEnter) {
+		EntityManager em = emfactory.createEntityManager();
+		em.getTransaction().begin();
+		em.merge(toEnter);
+		em.getTransaction().commit();
+		em.close();
+	}
+
 	public Phone findPhoneByID(int idToEdit) {
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();

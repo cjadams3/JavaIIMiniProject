@@ -10,7 +10,7 @@ import javax.persistence.TypedQuery;
 import model.Contact;
 
 public class ContactHelper {
-	static EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("");
+	static EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("JavaIIMiniProject");
 
 	
 	public List<Contact> findContactByType(String findType) {
@@ -47,6 +47,11 @@ public class ContactHelper {
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
 		em.merge(toEdit);
+
+	public void InsertItem(Contact li) {
+		EntityManager em = emfactory.createEntityManager();
+		em.getTransaction().begin();
+		em.persist(li);
 		em.getTransaction().commit();
 		em.close();
 	}
