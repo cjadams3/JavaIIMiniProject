@@ -4,16 +4,36 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+@Entity
+@Table(name="contact")
 public class Contact {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="CONTACT_ID")
 	private int id;
+	@Column(name="FIRST_NAME")
 	private String firstName;
+	@Column(name="LAST_NAME")
 	private String lastName;
-	private int age;
+	@Column(name="BIRTH_DATE")
 	private LocalDate birthDate;
+	@Column(name="HOUSE_NUMBER")
 	private int houseNumber;
+	@Column(name="STREET")
 	private String street;
+	@Column(name="CITY")
 	private String city;
+	@Column(name="STATE")
 	private String state;
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="contactItem", orphanRemoval=true)
 	private List<Phone> allPhoneItems = new ArrayList<Phone>();
 	
 	public Contact () {
@@ -26,19 +46,17 @@ public class Contact {
 		this.lastName = lastName;
 	}
 	
-	public Contact(String firstName, String lastName, int age, LocalDate birthDate) {
+	public Contact(String firstName, String lastName, LocalDate birthDate) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.age = age;
 		this.birthDate = birthDate;
 	}
 	
-	public Contact(String firstName, String lastName, int age, LocalDate birthDate, int houseNumber, String street, String city, String state) {
+	public Contact(String firstName, String lastName, LocalDate birthDate, int houseNumber, String street, String city, String state) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.age = age;
 		this.birthDate = birthDate;
 		this.houseNumber = houseNumber;
 		this.street = street;
@@ -68,14 +86,6 @@ public class Contact {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
 	}
 
 	public LocalDate getBirthDate() {
@@ -128,6 +138,6 @@ public class Contact {
 
 	@Override
 	public String toString() {
-		return "[ID: " + id + ", First Name: " + firstName + ", Last Name: " + lastName + ", Age: " + age + ", Birth Date: " + birthDate + ", House Number: " + houseNumber + ", Street: " + street + ", City: " + city + ", State: " + state + "]";
+		return "[ID: " + id + ", First Name: " + firstName + ", Last Name: " + lastName + ", Birth Date: " + birthDate + ", House Number: " + houseNumber + ", Street: " + street + ", City: " + city + ", State: " + state + "]";
 	}
 }
