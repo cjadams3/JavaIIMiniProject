@@ -40,8 +40,13 @@ public class addNewContactServlet extends HttpServlet {
 		String sMonth = request.getParameter("month");
 		String sDay = request.getParameter("day");
 		String sYear = request.getParameter("year");
-		String sToChange = sYear + "-" + sMonth + "-" + sDay;
-		LocalDate bDate = LocalDate.parse(sToChange);
+		LocalDate bDate;
+		try {
+			bDate = LocalDate.of(Integer.parseInt(sYear), Integer.parseInt(sMonth), Integer.parseInt(sDay));
+		}
+		catch (NumberFormatException ex) {
+			bDate = LocalDate.now();
+		}
 		String sHNumber = request.getParameter("hNumber");
 		int hNumber = 0;
 		try {
