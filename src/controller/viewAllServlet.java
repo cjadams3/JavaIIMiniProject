@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class navigationServlet
+ * Servlet implementation class viewAllServlet
  */
-@WebServlet("/navigationServlet")
-public class navigationServlet extends HttpServlet {
+@WebServlet("/viewAllServlet")
+public class viewAllServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public navigationServlet() {
+    public viewAllServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -25,23 +25,24 @@ public class navigationServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		ContactHelper ch = new ContactHelper();
+		
+		request.setAttribute("allContacts", ch.getAllContacts());
+		
+		if (ch.getAllContacts().isEmpty()) {
+			request.setAttribute("allContacts", " ");
+		}
+		getServletContext().getRequestDispatcher("/item-list.jsp").forward(request, response);
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String action = request.getParameter("action");
-		
-		if (action == null) {
-			getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
-		}
-		else if (action.equals("add")) {
-			getServletContext().getRequestDispatcher("/add.jsp").forward(request, response);
-		}
-		else if (action.equals("view")) {
-			getServletContext().getRequestDispatcher("/viewAllServlet").forward(request, response);
-		}
+		doGet(request, response);
 	}
 
 }
