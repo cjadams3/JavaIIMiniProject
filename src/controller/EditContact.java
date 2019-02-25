@@ -44,7 +44,6 @@ public class EditContact extends HttpServlet {
 		String street = request.getParameter("street");
 		String city = request.getParameter("city");
 		String state = request.getParameter("state");
-		String age = request.getParameter("age");
 		String houseNumber = request.getParameter("houseNumber");
 		
 		Integer tempId = Integer.parseInt(request.getParameter("id"));
@@ -56,7 +55,6 @@ public class EditContact extends HttpServlet {
 		updateContactInfo.setStreet(street);
 		updateContactInfo.setCity(city);
 		updateContactInfo.setState(state);
-		updateContactInfo.setAge(Integer.parseInt(age));
 		updateContactInfo.setHouseNumber(Integer.parseInt(houseNumber));
 		
 		ch.updateContact(updateContactInfo);
