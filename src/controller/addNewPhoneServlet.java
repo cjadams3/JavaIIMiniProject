@@ -35,7 +35,7 @@ public class addNewPhoneServlet extends HttpServlet {
 		PhoneHelper nph = new PhoneHelper();
 		
 		int contactID = Integer.parseInt(request.getParameter("id"));
-		Contact thisContact = nch.searchForItemById(contactID);
+		Contact thisContact = nch.findContactByID(contactID);
 		
 		
 		String phoneType = request.getParameter("type");
