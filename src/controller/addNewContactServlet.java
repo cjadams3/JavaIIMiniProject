@@ -59,11 +59,29 @@ public class addNewContactServlet extends HttpServlet {
 		String city = request.getParameter("city");
 		String stateCd = request.getParameter("state");
 		
+		int idToEdit = Integer.parseInt(request.getParameter("id"));
+		ContactHelper nch = new ContactHelper();
+		Contact toEdit = nch.findContactByID(idToEdit);
+		
+		if (toEdit != null) { // Edit this contact
+			toEdit.setFirstName(fName);
+			toEdit.setLastName(lName);
+			toEdit.setBirthDate(bDate);
+			toEdit.setHouseNumber(hNumber);
+			toEdit.setStreet(street);
+			toEdit.setCity(city);
+			toEdit.setState(stateCd);
+			nch.updateContact(toEdit);
+			getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+			return;
+		}
+		else { // Add new contact
 		Contact newContact = new Contact(fName, lName, bDate, hNumber, street, city, stateCd);
 		
 		request.setAttribute("ContactInfo", newContact);
 		
 		getServletContext().getRequestDispatcher("/addPhone.jsp").forward(request, response);
+		}
 	}
 
 }
