@@ -8,6 +8,7 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 import model.Contact;
+import model.Phone;
 
 public class ContactHelper {
 	static EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("JavaIIMiniProject");
@@ -70,7 +71,7 @@ public class ContactHelper {
 		em.getTransaction().begin();
 		itemToDelete.getAllPhoneItems().clear();
 		
-		TypedQuery<Contact> typedQuery = em.createQuery("select c from Contact c where c.contact_id = :selectedId", Contact.class);
+		TypedQuery<Contact> typedQuery = em.createQuery("select c from Contact c where c.id = :selectedId", Contact.class);
 		typedQuery.setParameter("selectedId", itemToDelete.getId());
 		typedQuery.setMaxResults(1);
 		
@@ -79,5 +80,19 @@ public class ContactHelper {
 		em.getTransaction().commit();
 		em.close();
 		
+	}
+	
+	public void deletePhone(Contact deleteFrom, int phoneId) {
+		List<Phone> phoneList = deleteFrom.getAllPhoneItems();
+		for (int i = 0; i < phoneList.size(); i++) {
+			Phone thisPhone = phoneList.get(i);
+			int thisIndex = thisPhone.getId();
+			if (thisIndex == phoneId) {
+				List<Phone> thisRemove = deleteFrom.getAllPhoneItems();
+				thisRemove.remove(i);
+				deleteFrom.setAllPhoneItems(thisRemove);
+			}
+		}
+		updateContact(deleteFrom);
 	}
 }

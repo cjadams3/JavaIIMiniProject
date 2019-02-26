@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.Contact;
+import model.Phone;
 
 /**
  * Servlet implementation class addNewContactServlet
@@ -77,8 +78,10 @@ public class addNewContactServlet extends HttpServlet {
 		}
 		else { // Add new contact
 		Contact newContact = new Contact(fName, lName, bDate, hNumber, street, city, stateCd);
+		Phone thisPhone = new Phone();
 		
 		request.setAttribute("ContactInfo", newContact);
+		request.setAttribute("thisPhone", thisPhone);
 		
 		getServletContext().getRequestDispatcher("/addPhone.jsp").forward(request, response);
 		}
