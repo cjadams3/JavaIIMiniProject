@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,7 +45,9 @@ public class addNewPhoneServlet extends HttpServlet {
 		Phone newPhone = new Phone(phoneType, phoneNumber);
 		
 		if (thisContact != null) { // Edit this phone entity
-			
+			newPhone.setContactItem(thisContact);
+			thisContact.getAllPhoneItems().add(newPhone);
+			nph.InsertPhone(newPhone);
 		}
 		else { // New phone entity
 			String fName = request.getParameter("fName");

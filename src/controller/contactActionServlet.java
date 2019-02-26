@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -14,16 +13,16 @@ import model.Contact;
 import model.Phone;
 
 /**
- * Servlet implementation class thisContactServlet
+ * Servlet implementation class contactActionServlet
  */
-@WebServlet("/thisContactServlet")
-public class thisContactServlet extends HttpServlet {
+@WebServlet("/contactActionServlet")
+public class contactActionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public thisContactServlet() {
+    public contactActionServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,40 +40,30 @@ public class thisContactServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		Integer thisId = Integer.parseInt(request.getParameter("id"));
 		String act = request.getParameter("doThis");
 		
 		if (act == null) {
 			getServletContext().getRequestDispatcher("/viewAllServlet").forward(request, response);
 		}
-		else if (act.equals("Delete Person")) {
-			ContactHelper nch = new ContactHelper();
-			Contact toDelete = nch.findContactByID(thisId);
+		else if (act.equals("Edit Item")) {
 			
-			nch.deleteItem(toDelete);
-			getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
-			}
-		else if (act.equals("Edit Contact Info")) {
-			ContactHelper nch = new ContactHelper();
-			Contact toEdit = nch.findContactByID(thisId);
-			
-			request.setAttribute("thisContact", toEdit);
-			LocalDate bDate = toEdit.getBirthDate();
-			int month = bDate.getMonthValue();
-			int day = bDate.getDayOfMonth();
-			int year = bDate.getYear();
-			request.setAttribute("thisMonth", month);
-			request.setAttribute("thisDay", day);
-			request.setAttribute("thisYear", year);
-			getServletContext().getRequestDispatcher("/add.jsp").forward(request, response);
 		}
-		else if (act.equals("View Details")) {
+		else if (act.equals("Delete Item")) {
 			ContactHelper nch = new ContactHelper();
-			Contact toView = nch.findContactByID(thisId);
-			List<Phone> phonesToView = toView.getAllPhoneItems();
-			request.setAttribute("thisContact", toView);
-			request.setAttribute("phonesList", phonesToView);
-			getServletContext().getRequestDispatcher("/view-details.jsp").forward(request, response);
+			int thisContactID = Integer.parseInt(request.getParameter("cID"));
+			Contact thisContact = nch.findContactByID(thisContactID);
+			Integer phoneId = Integer.parseInt("pID");
+			nch.deletePhone(thisContact, phoneId);
+		}
+		else if (act.equals("Add Item")) {
+			ContactHelper nch = new ContactHelper();
+			int thisContactID = Integer.parseInt(request.getParameter("cID"));
+			Contact thisContact = nch.findContactByID(thisContactID);
+			request.setAttribute("ContactInfo", thisContact);
+			Phone thisPhone = new Phone();
+			request.setAttribute("thisPhone", thisPhone);
+			getServletContext().getRequestDispatcher("/addPhone.jsp").forward(request, response);
+			
 		}
 	}
 
