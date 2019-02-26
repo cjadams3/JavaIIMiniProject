@@ -47,6 +47,8 @@ public class ContactHelper {
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
 		em.merge(toEdit);
+		em.getTransaction().commit();
+		em.close();
 	}
 
 	public void InsertItem(Contact c) {
@@ -66,10 +68,12 @@ public class ContactHelper {
 	public void deleteItem(Contact itemToDelete) {
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
-		TypedQuery<Contact> typedQuery = em.createQuery("select c from Contact c where c.firstname = :selectedFirstName and c.LastName = :selectedType", Contact.class);
-		typedQuery.setParameter("selectedFirstName", itemToDelete.getFirstName());
-		typedQuery.setParameter("selectedLastName", itemToDelete.getLastName());
+		itemToDelete.getAllPhoneItems().clear();
+		
+		TypedQuery<Contact> typedQuery = em.createQuery("select c from Contact c where c.contact_id = :selectedId", Contact.class);
+		typedQuery.setParameter("selectedId", itemToDelete.getId());
 		typedQuery.setMaxResults(1);
+		
 		Contact result = typedQuery.getSingleResult();
 		em.remove(result);
 		em.getTransaction().commit();

@@ -8,6 +8,7 @@
 <title>View All Contacts</title>
 </head>
 <body>
+<form method="post" action="thisContactServlet">
 	<table>
 		<c:forEach items="${requestScope.allContacts}" var="currentitem">
 		<tr>
@@ -25,6 +26,7 @@
 	<input type="submit" value="View Details" name="doThis">
 	<input type="submit" value="Edit Contact Info" name="doThis">
 	<input type="submit" value="Delete Person" name="doThis">
+</form>
 	<a href="index.jsp">Return to Menu</a>
 </body>
 </html>

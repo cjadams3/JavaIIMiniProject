@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.Contact;
+
 /**
  * Servlet implementation class navigationServlet
  */
@@ -37,6 +39,11 @@ public class navigationServlet extends HttpServlet {
 			getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
 		}
 		else if (action.equals("add")) {
+			Contact thisContact = new Contact(); // Work with edit page
+			request.setAttribute("thisContact", thisContact);
+			request.setAttribute("thisMonth", " ");
+			request.setAttribute("thisDay", " ");
+			request.setAttribute("thisYear", " ");
 			getServletContext().getRequestDispatcher("/add.jsp").forward(request, response);
 		}
 		else if (action.equals("view")) {
