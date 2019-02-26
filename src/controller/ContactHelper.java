@@ -16,7 +16,7 @@ public class ContactHelper {
 	public List<Contact> findContactByType(String findType) {
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
-		TypedQuery<Contact> typedQuery = em.createQuery("select p from Contact p where p.phonetype = :selectedType", Contact.class);
+		TypedQuery<Contact> typedQuery = em.createQuery("select c from Contact c where c.Contacttype = :selectedType", Contact.class);
 		typedQuery.setParameter("selectedType", findType);
 
 		List<Contact> foundType = typedQuery.getResultList();
@@ -27,7 +27,7 @@ public class ContactHelper {
 	public List<Contact> findContactByName(String findName) {
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
-		TypedQuery<Contact> typedQuery = em.createQuery("select p from Contact p where p.phonename = :selectedName", Contact.class);
+		TypedQuery<Contact> typedQuery = em.createQuery("select c from Contact c where c.Contactname = :selectedName", Contact.class);
 		typedQuery.setParameter("selectedName", findName);
 
 		List<Contact> foundName = typedQuery.getResultList();
@@ -47,48 +47,33 @@ public class ContactHelper {
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
 		em.merge(toEdit);
+	}
 
-	public void InsertItem(Contact li) {
+	public void InsertItem(Contact c) {
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
-		em.persist(li);
+		em.persist(c);
 		em.getTransaction().commit();
 		em.close();
 	}
 	
 	public List<Contact> getAllContacts() {
 		EntityManager em = emfactory.createEntityManager();
-		List<Contact> allContacts = em.createQuery("SELECT a FROM Contact a").getResultList();
+		List<Contact> allContacts = em.createQuery("SELECT c FROM Contact c").getResultList();
 		return allContacts;
 	}
-	
-	public Contact searchForItemById(int idToEdit) {
-		EntityManager em = emfactory.createEntityManager();
-		em.getTransaction().begin();
-		Contact found = em.find(Contact.class, idToEdit);
-		em.close();
-		return found;
-	}
-	
-	public List<Contact> findContactByType(String findType) {
-		EntityManager em = emfactory.createEntityManager();
-		em.getTransaction().begin();
-		TypedQuery<Contact> typedQuery = em.createQuery("select p from Contact p where p.phonetype = :selectedType", Contact.class);
-		typedQuery.setParameter("selectedType", findType);
 
-		List<Contact> foundType = typedQuery.getResultList();
-		em.close();
-		return foundType;
-	}
-	
-	public List<Contact> findContactByName(String findName) {
+	public void deleteItem(Contact itemToDelete) {
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
-		TypedQuery<Contact> typedQuery = em.createQuery("select p from Contact p where p.phonename = :selectedName", Contact.class);
-		typedQuery.setParameter("selectedName", findName);
-
-		List<Contact> foundName = typedQuery.getResultList();
+		TypedQuery<Contact> typedQuery = em.createQuery("select c from Contact c where c.firstname = :selectedFirstName and c.LastName = :selectedType", Contact.class);
+		typedQuery.setParameter("selectedFirstName", itemToDelete.getFirstName());
+		typedQuery.setParameter("selectedLastName", itemToDelete.getLastName());
+		typedQuery.setMaxResults(1);
+		Contact result = typedQuery.getSingleResult();
+		em.remove(result);
+		em.getTransaction().commit();
 		em.close();
-		return foundName;
+		
 	}
 }
