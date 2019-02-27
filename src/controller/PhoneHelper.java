@@ -1,15 +1,41 @@
 package controller;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
+import model.Contact;
 import model.Phone;
 
-public class PhoneHelper 
-  
+public class PhoneHelper {
+
 	static EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("JavaIIMiniProject");
 	
+	public List<Phone> findPhoneByType(String findType) {
+		EntityManager em = emfactory.createEntityManager();
+		em.getTransaction().begin();
+		TypedQuery<Phone> typedQuery = em.createQuery("select p from Phone p where p.phonetype = :selectedType", Phone.class);
+		typedQuery.setParameter("selectedType", findType);
+
+		List<Phone> foundType = typedQuery.getResultList();
+		em.close();
+		return foundType;
+	}
+
+	public List<Phone> findPhoneByName(String findName) {
+		EntityManager em = emfactory.createEntityManager();
+		em.getTransaction().begin();
+		TypedQuery<Phone> typedQuery = em.createQuery("select p from Phone p where p.phonename = :selectedName", Phone.class);
+		typedQuery.setParameter("selectedName", findName);
+
+		List<Phone> foundName = typedQuery.getResultList();
+		em.close();
+		return foundName;
+	}
+
 	public void InsertPhone(Phone toEnter) {
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
