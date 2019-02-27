@@ -9,10 +9,11 @@
 </head>
 <body>
 	<form method="post" action="addNewPhoneServlet">
+		<input type="hidden" name="phoneID" value="${thisPhone.id}">
 		<label for="type">Phone Type (e.g. Home, Work, Cell, etc)</label>
-		<input type="text" name="type"><br>
+		<input type="text" name="type" value="${thisPhone.phoneType}"><br>
 		<label for="number">Phone Number</label>
-		<input type="text" name="number"><br>
+		<input type="text" name="number" value="${thisPhone.phoneNumber}"><br>
 		<input type="submit" value="Submit">
 		<input type="hidden" name="id" value="${ContactInfo.id}">
 		<input type="hidden" name="fName" value="${ContactInfo.firstName}">

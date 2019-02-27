@@ -26,5 +26,6 @@
 	<input type="Submit" value="Delete Item" name="doThis">
 	<input type="Submit" value="Add Item" name="doThis">
 </form>
+<a href="index.jsp">Return to Menu</a>
 </body>
 </html>

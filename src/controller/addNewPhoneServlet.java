@@ -37,19 +37,28 @@ public class addNewPhoneServlet extends HttpServlet {
 		
 		int contactID = Integer.parseInt(request.getParameter("id"));
 		Contact thisContact = nch.findContactByID(contactID);
-		
+		int phoneID = Integer.parseInt(request.getParameter("phoneID"));
+		Phone thisPhone = nph.findPhoneByID(phoneID);
 		
 		String phoneType = request.getParameter("type");
 		String phoneNumber = request.getParameter("number");
 		
-		Phone newPhone = new Phone(phoneType, phoneNumber);
-		
-		if (thisContact != null) { // Edit this phone entity
+		if (thisContact != null) { // Edit / Add Phone to existing Contact
+			if (thisPhone != null) { // Edit Phone for this Contact
+				thisPhone.setPhoneType(phoneType);
+				thisPhone.setPhoneNumber(phoneNumber);
+				nph.updatePhone(thisPhone);
+			}
+			else { // Add Phone for Existing Contact
+			Phone newPhone = new Phone(phoneType, phoneNumber);
 			newPhone.setContactItem(thisContact);
 			thisContact.getAllPhoneItems().add(newPhone);
-			nph.InsertPhone(newPhone);
+			nch.updateContact(thisContact);
+		//	nph.InsertPhone(newPhone);
+			}
 		}
-		else { // New phone entity
+		else { // New phone & Contact entity
+			Phone newPhone = new Phone(phoneType, phoneNumber);
 			String fName = request.getParameter("fName");
 			String lName = request.getParameter("lName");
 			LocalDate bDate = LocalDate.parse(request.getParameter("bDate"));

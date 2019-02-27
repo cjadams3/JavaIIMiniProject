@@ -46,14 +46,23 @@ public class contactActionServlet extends HttpServlet {
 			getServletContext().getRequestDispatcher("/viewAllServlet").forward(request, response);
 		}
 		else if (act.equals("Edit Item")) {
-			
+			ContactHelper nch = new ContactHelper();
+			int thisContactID = Integer.parseInt(request.getParameter("cID"));
+			Contact thisContact = nch.findContactByID(thisContactID);
+			PhoneHelper pch = new PhoneHelper();
+			int thisPhoneID = Integer.parseInt(request.getParameter("pID"));
+			Phone thisPhone = pch.findPhoneByID(thisPhoneID);
+			request.setAttribute("ContactInfo", thisContact);
+			request.setAttribute("thisPhone", thisPhone);
+			getServletContext().getRequestDispatcher("/addPhone.jsp").forward(request, response);
 		}
 		else if (act.equals("Delete Item")) {
 			ContactHelper nch = new ContactHelper();
 			int thisContactID = Integer.parseInt(request.getParameter("cID"));
 			Contact thisContact = nch.findContactByID(thisContactID);
-			Integer phoneId = Integer.parseInt("pID");
+			Integer phoneId = Integer.parseInt(request.getParameter("pID"));
 			nch.deletePhone(thisContact, phoneId);
+			getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
 		}
 		else if (act.equals("Add Item")) {
 			ContactHelper nch = new ContactHelper();
