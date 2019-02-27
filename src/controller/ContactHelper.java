@@ -8,6 +8,7 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
 import model.Contact;
+import model.Phone;
 
 public class ContactHelper {
 	static EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("JavaIIMiniProject");
@@ -47,6 +48,8 @@ public class ContactHelper {
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
 		em.merge(toEdit);
+		em.getTransaction().commit();
+		em.close();
 	}
 
 	public void InsertItem(Contact c) {
@@ -66,14 +69,30 @@ public class ContactHelper {
 	public void deleteItem(Contact itemToDelete) {
 		EntityManager em = emfactory.createEntityManager();
 		em.getTransaction().begin();
-		TypedQuery<Contact> typedQuery = em.createQuery("select c from Contact c where c.firstname = :selectedFirstName and c.LastName = :selectedType", Contact.class);
-		typedQuery.setParameter("selectedFirstName", itemToDelete.getFirstName());
-		typedQuery.setParameter("selectedLastName", itemToDelete.getLastName());
+		itemToDelete.getAllPhoneItems().clear();
+		
+		TypedQuery<Contact> typedQuery = em.createQuery("select c from Contact c where c.id = :selectedId", Contact.class);
+		typedQuery.setParameter("selectedId", itemToDelete.getId());
 		typedQuery.setMaxResults(1);
+		
 		Contact result = typedQuery.getSingleResult();
 		em.remove(result);
 		em.getTransaction().commit();
 		em.close();
 		
+	}
+	
+	public void deletePhone(Contact deleteFrom, int phoneId) {
+		List<Phone> phoneList = deleteFrom.getAllPhoneItems();
+		for (int i = 0; i < phoneList.size(); i++) {
+			Phone thisPhone = phoneList.get(i);
+			int thisIndex = thisPhone.getId();
+			if (thisIndex == phoneId) {
+				List<Phone> thisRemove = deleteFrom.getAllPhoneItems();
+				thisRemove.remove(i);
+				deleteFrom.setAllPhoneItems(thisRemove);
+			}
+		}
+		updateContact(deleteFrom);
 	}
 }
